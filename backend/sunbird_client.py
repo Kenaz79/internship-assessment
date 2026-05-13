@@ -67,16 +67,10 @@ def transcribe(audio_path: str) -> str:
 
 
 def summarise(text: str) -> str:
-    """POST /tasks/summarise"""
-    response = _session().post(
-        f"{BASE_URL}/tasks/summarise",
-        headers={**_auth_headers(), "Content-Type": "application/json"},
-        json={"text": text},
-        timeout=180,
+    return sunflower_chat(
+        system_prompt="You are a helpful assistant. Summarise the following text concisely in 2-4 sentences. Do not change any names or places.",
+        user_message=text,
     )
-    response.raise_for_status()
-    return response.json()["summarized_text"]
-
 
 def sunflower_chat(system_prompt: str, user_message: str) -> str:
     """POST /tasks/sunflower_inference"""
